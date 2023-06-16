@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inheritance and ProtoType</title>
+    <style>
+        .title{
+            text-align: center;
+            color: red;
+            background-color: aliceblue;
+        }        
+    </style>
+</head>
+<body>
+    <h1 class="title">Inheritance and ProtoType</h1>
+    <div class="question">
+      <h3>
+        Q1. Create 2 objects - parent and child. Attach methods to parent and use those methods in child object using parents prototype. <br>
+        Ans.-
+      </h3>
+      <pre>
+        const Parent = {
+            display: function(){
+                console.log(`${this.name} and age is ${this.age}`)
+            }
+        }
+        
+        const child1 = Object.create(Parent);
+        child1.name = "EA23"
+        child1.age = 22;
+        child1.display();
+        
+        const child2 = Object.create(Parent);
+        child2.name = "EA24"
+        child2.age = 24;
+        child2.display();
+        </pre>
+        The Parent object is created with a method display. This object acts as the prototype for other objects.
+        <br>
+        The child1 object is created using Object.create(Parent). It inherits the properties and methods of Parent as its prototype. Then, the name and age properties are added to the child1 object.
+        <br>
+        The child1.display() method is called. Since child1 doesn't have its own display method, the JavaScript engine looks up the prototype chain and finds the display method in the Parent object. The method is executed with the this context referring to child1, and it logs the output "EA23 and age is 22" to the console.
+        <br>
+        Similarly, the child2 object is created using Object.create(Parent) and assigned name and age properties.
+    
+        The child2.display() method is called, which follows the same lookup process as in child1.display(). It logs the output "EA24 and age is 24" to the console.
+        <hr>
+    </div>
+    <div class="question">
+      <h3>
+        Q2. Write code to explain prototype chaining? <br>
+        Ans.-
+      </h3>
+      <pre>
+        const GFather = {
+            SayHello : function(){
+                console.log("Hey Grand Father!!");
+            }
+        }
+        
+        const Father = Object.create(GFather);
+        Father.Hello = function(){
+            console.log("Say Hi to Father!!");
+        }
+        
+        const Son = Object.create(Father);
+        Son.Hi = function(){
+            console.log("Hii I'm Son!!");
+        }
+        
+        Son.SayHello()
+        </pre>
+        The GFather object is created with a method SayHello. This object acts as the prototype for other objects.
+        <br>
+        The Father object is created using Object.create(GFather). It inherits the properties and methods of GFather as its prototype. Additionally, it defines a new method Hello.
+        <br>
+        The Son object is created using Object.create(Father). It inherits the properties and methods of Father as its prototype. It also defines a new method Hi.
+        <br>
+        When Son.SayHello() is called, it checks if the Son object has a SayHello method. Since it doesn't, it looks up the prototype chain and finds the SayHello method in the GFather object. The method is then executed, and the output "Hey Grand Father!!" is logged to the console.
+        <hr>
+    </div>
+    <div class="question">
+      <h3>
+        Q3. Add a method to calculate sum of all elements in Array in array's prototype, use that method to calculate sum for multiple arrays? <br>
+        Ans.-
+      </h3>
+      <pre>
+        Array.prototype.sum = function () {
+          return this.reduce((previous, currentValue) => previous + currentValue, 0);
+        };
+        
+      const array1 = [1, 2, 3, 4, 5];
+      const array2 = [10, 20, 30, 40, 50];
+      console.log(array1.sum())
+      console.log(array2.sum())
+        </pre>
+        <hr>
+    </div>
+    <div class="question">
+      <h3>
+        Q4. Write a JavaScript function to retrieve all the names of object's own and inherited properties.<br>
+        Ans.-
+      </h3>
+      <pre>
+        function getAllPropertyNames(obj) {
+          let propertyNames = [];
+          // Retrieve own property names
+          propertyNames = propertyNames.concat(Object.getOwnPropertyNames(obj));
+        
+          // Retrieve inherited property names
+          const prototype = Object.getPrototypeOf(obj);
+          if (prototype !== null) {
+            const inheritedPropertyNames = getAllPropertyNames(prototype);
+            propertyNames = propertyNames.concat(inheritedPropertyNames);
+          }
+        
+          return propertyNames;
+        }
+        
+        const person = {
+          name: 'John',
+          age: 30
+        };
+        
+        const student = Object.create(person);
+        student.id = 123;
+        student.grade = 'A';
+        
+        const propertyNames = getAllPropertyNames(student);
+        console.log(propertyNames);
+        </pre>
+        <hr>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
